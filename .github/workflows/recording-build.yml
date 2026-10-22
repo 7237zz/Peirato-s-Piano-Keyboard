@@ -1,8 +1,8 @@
-name: Recording build validation
+name: Piano 2.0 build validation
 
 on:
   push:
-    branches: [feat/2.0-recording-workflow]
+    branches: [feat/2.0-recording-workflow, feat/2.0-unified-midi-timeline]
   pull_request:
     branches: [2.0]
 
