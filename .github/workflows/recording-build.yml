@@ -4,7 +4,7 @@ on:
   push:
     branches: [feat/2.0-recording-workflow, feat/2.0-unified-midi-timeline]
   pull_request:
-    branches: [2.0]
+    branches: [2.0, feat/2.0-recording-workflow]
 
 jobs:
   build:
