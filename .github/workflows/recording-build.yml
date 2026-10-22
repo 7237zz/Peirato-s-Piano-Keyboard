@@ -2,9 +2,9 @@ name: Piano 2.0 build validation
 
 on:
   push:
-    branches: [feat/2.0-recording-workflow, feat/2.0-unified-midi-timeline]
+    branches: [feat/2.0-recording-workflow, feat/2.0-unified-midi-timeline, fix/2.0-chord-display-stability]
   pull_request:
-    branches: [2.0, feat/2.0-recording-workflow]
+    branches: [2.0, feat/2.0-recording-workflow, feat/2.0-unified-midi-timeline]
 
 jobs:
   build:
