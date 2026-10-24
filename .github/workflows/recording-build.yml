@@ -1,0 +1,40 @@
+name: Piano 2.0 build validation
+
+on:
+  push:
+    branches: [feat/2.0-recording-workflow, feat/2.0-unified-midi-timeline, fix/2.0-chord-display-stability, feat/2.0-functional-completion, fix/2.0-core-experience-performance]
+  pull_request:
+    branches: [2.0, feat/2.0-recording-workflow, feat/2.0-unified-midi-timeline, fix/2.0-chord-display-stability]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install Linux native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-4-dev libwebkitgtk-6.0-dev libasound2-dev libudev-dev pkg-config
+      - name: Install Wails CLI and regenerate bindings
+        run: |
+          go install github.com/wailsapp/wails/v3/cmd/wails3@v3.0.0-beta.24
+          "$(go env GOPATH)/bin/wails3" generate bindings
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+      - name: Compile Go service
+        run: go build ./service
